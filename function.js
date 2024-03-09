@@ -1,9 +1,22 @@
-window.function = function(html, fileName) {
-  // Set Default Values
+window.function = function(html, fileName, quality, format, orientation, margin, pageBreakAvoid) {
+  // DYNAMIC VALUES
   html = html.value ?? "No HTML content set.";
   fileName = fileName.value ?? "file";
+  quality = quality.value ?? 2;
+  format = format.value ?? "a4";
+  orientation = orientation.value ?? "portrait";
+  margin = margin.value ?? 10;
+  pageBreakAvoid = pageBreakAvoid.value ?? "";
 
-  // Your original HTML including the additional scripts and styles
+  // CONSTANT VARIABLES
+  const downloadText = 'Download PDF';
+  const downloadColor = '#27272a';
+  const downloadingText = 'Downloading...';
+  const downloadingColor = '#ea580c';
+  const doneText = 'Done';
+  const doneColor = '#16a34a';
+
+  // DOWNLOAD BUTTON AND FUNCTIONALITY
   const originalHTML = `
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
 <style>
@@ -13,9 +26,9 @@ window.function = function(html, fileName) {
     right: 4px;
     top: 4px;
     font-weight: 600;
-    background-color: #FFFFFF;
-    box-shadow: 0px 0px 1px rgba(62, 65, 86, 0.24), 0px 4px 8px rgba(62, 65, 86, 0.16);
-    color: rgba(44, 44, 44, 0.92);
+    background-color: #fafafa;
+    box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.16), 0px 4px 8px rgba(0, 0, 0, 0.12);
+    color: #27272a;
     border: 0.5px solid #00000024;
     border-radius: 8px;
     height: 32px;
@@ -24,41 +37,41 @@ window.function = function(html, fileName) {
     z-index: 999;
   }
   #downloadPDFButton:hover {
-    background-color: rgba(0, 0, 0, 0.05);
+    background-color: #e4e4e7;
     box-shadow: 0px 0px 1px rgba(62, 65, 86, 0.32), 0px 4px 8px rgba(62, 65, 86, 0.16);
   }
 </style>
-<button id="downloadPDFButton">🖨️ Download PDF</button>
+<button id="downloadPDFButton">${downloadText}</button>
 <div id="contentToDownload">${html}</div>
 <script>
   document.getElementById('downloadPDFButton').addEventListener('click', function() {
     const pdfButton = this;
     const contentElement = document.getElementById('contentToDownload');
-    pdfButton.textContent = '⏳ Downloading...';
-    pdfButton.style.color = 'orange';
+    pdfButton.textContent = '${downloadingText}';
+    pdfButton.style.color = '${downloadingColor}';
     html2pdf().set({
-      pagebreak: { mode: ['css', 'legacy'], avoid: 'table' },
-      margin: 0,
+      pagebreak: { mode: ['css', 'legacy'], avoid: '${pageBreakAvoid}' },
+      margin: ${margin},
       filename: '${fileName}',
       image: {
         type: 'jpeg',
         quality: 1
       },
       html2canvas: {
-        scale: 3,
+        scale: ${quality},
         useCORS: true
       },
       jsPDF: {
         unit: 'mm',
-        format: 'a4',
-        orientation: 'portrait'
+        format: '${format}',
+        orientation: '${orientation}'
       }
     }).from(contentElement).toPdf().get('pdf').then(function() {
-      pdfButton.textContent = '🎉 Done';
-      pdfButton.style.color = 'green';
+      pdfButton.textContent = '${doneText}';
+      pdfButton.style.color = '${doneColor}';
       setTimeout(function() {
-        pdfButton.textContent = '🖨️ Download PDF';
-        pdfButton.style.color = 'rgba(44, 44, 44, 0.92)';
+        pdfButton.textContent = '${downloadText}';
+        pdfButton.style.color = '${downloadColor}';
       }, 2000);
     }).save();
   });
