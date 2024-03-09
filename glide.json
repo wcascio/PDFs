@@ -1,24 +1,48 @@
 [
 	{
-	  "kind": "column",
-	  "name": "HTML to PDF",
-	  "description": "Allows you to instantly save HTML as a PDF. Visit Loqode.com to level-up your Glide skills.",
-	  "author": "Marco Volpato <marco@loqode.com>",
-	  "params": [
-		{
-		  "name": "html",
-		  "displayName": "HTML",
-		  "type": "string"
-		},
-		{
-		  "name": "fileName",
-		  "displayName": "File Name",
-		  "type": "string"
+		"kind": "column",
+		"name": "HTML to PDF",
+		"description": "Allows you to instantly save HTML as a PDF. Visit Loqode.com to level-up your Glide skills.",
+		"author": "Marco Volpato <marco@loqode.com>",
+		"params": [
+			{
+				"name": "html",
+				"displayName": "HTML*",
+				"type": "string"
+			},
+			{
+				"name": "fileName",
+				"displayName": "File Name",
+				"type": "string"
+			},
+			{
+				"name": "quality",
+				"displayName": "Quality (1-5)",
+				"type": "string"
+			},
+			{
+				"name": "format",
+				"displayName": "Format <span style='opacity:0.5'>(a4, letter, etc)</span>",
+				"type": "string"
+			},
+			{
+				"name": "orientation",
+				"displayName": "Orientation (portrait, landscape)",
+				"type": "string"
+			},
+			{
+				"name": "margin",
+				"displayName": "Margin (mm)",
+				"type": "string"
+			},
+			{
+				"name": "pageBreakAvoid",
+				"displayName": "Page Break Avoid (Avoid breaking on these elements)",
+				"type": "string"
+			}
+		],
+		"result": {
+			"type": "string"
 		}
-	  ],
-	  "result": {
-		"type": "string"
-	  }
 	}
-  ]
-  
+]
