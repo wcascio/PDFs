@@ -1,0 +1,19 @@
+[
+    {
+      "kind": "column",
+      "name": "Enhance HTML",
+      "description": "Receives HTML and returns new HTML with additional scripts and styles.",
+      "author": "Your Name <your@email.com>",
+      "params": [
+        {
+          "name": "html",
+          "displayName": "HTML Content",
+          "type": "string"
+        }
+      ],
+      "result": {
+        "type": "string"
+      }
+    }
+  ]
+  
