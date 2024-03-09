@@ -1,23 +1,51 @@
-window.function = function(html, fileName, quality, format, orientation, margin, pageBreakAvoid) {
-  // DYNAMIC VALUES
-  html = html.value ?? "No HTML content set.";
-  fileName = fileName.value ?? "file";
-  quality = quality.value ?? 2;
-  format = format.value ?? "a4";
-  orientation = orientation.value ?? "portrait";
-  margin = margin.value ?? 10;
-  pageBreakAvoid = pageBreakAvoid.value ?? "";
+window.function = function (html, fileName, quality, format, orientation, margin, breakBeforeClass, breakAfterClass, avoidClass) {
+	// DYNAMIC VALUES
+	html = html.value ?? "No HTML content set.";
+	fileName = fileName.value ?? "file";
+	quality = quality.value ?? 2;
+	format = format.value ?? "a4";
+	orientation = orientation.value ?? "portrait";
+	margin = margin.value ?? 10;
+	breakBeforeClass = breakBeforeClass.value ?? "";
+	breakAfterClass = breakAfterClass.value ?? "";
+	avoidClass = avoidClass.value ?? "";
 
-  // CONSTANT VARIABLES
-  const downloadText = 'Download PDF';
-  const downloadColor = '#27272a';
-  const downloadingText = 'Downloading...';
-  const downloadingColor = '#ea580c';
-  const doneText = 'Done';
-  const doneColor = '#16a34a';
+	// CONSTANT VARIABLES
+	const downloadText = "Download PDF";
+	const downloadColor = "#27272a";
+	const downloadingText = "Downloading...";
+	const downloadingColor = "#ea580c";
+	const doneText = "Done";
+	const doneColor = "#16a34a";
 
-  // DOWNLOAD BUTTON AND FUNCTIONALITY
-  const originalHTML = `
+	// Convert comma-separated class names into CSS selectors
+	const convertToSelectors = (classNames) =>
+		classNames
+			.split(",")
+			.map((name) => name.trim())
+			.filter((name) => name)
+			.map((name) => `.${name}`)
+			.join(", ");
+
+	// Prepare dynamic page break configuration
+	const pageBreakConfig = {
+		mode: ["css", "legacy"],
+	};
+
+	if (breakBeforeClass) {
+		pageBreakConfig.before = convertToSelectors(breakBeforeClass);
+	}
+
+	if (breakAfterClass) {
+		pageBreakConfig.after = convertToSelectors(breakAfterClass);
+	}
+
+	if (avoidClass) {
+		pageBreakConfig.avoid = convertToSelectors(avoidClass);
+	}
+
+	// DOWNLOAD BUTTON AND FUNCTIONALITY
+	const originalHTML = `
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
 <style>
   #downloadPDFButton {
@@ -50,7 +78,7 @@ window.function = function(html, fileName, quality, format, orientation, margin,
     pdfButton.textContent = '${downloadingText}';
     pdfButton.style.color = '${downloadingColor}';
     html2pdf().set({
-      pagebreak: { mode: ['css', 'legacy'], avoid: '${pageBreakAvoid}' },
+      pagebreak: ${JSON.stringify(pageBreakConfig)},
       margin: ${margin},
       filename: '${fileName}',
       image: {
@@ -77,6 +105,6 @@ window.function = function(html, fileName, quality, format, orientation, margin,
   });
 </script>
 `;
-  var encodedHtml = encodeURIComponent(originalHTML);
-  return 'data:text/html;charset=utf-8,' + encodedHtml;
-}
+	var encodedHtml = encodeURIComponent(originalHTML);
+	return "data:text/html;charset=utf-8," + encodedHtml;
+};

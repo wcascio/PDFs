@@ -7,7 +7,7 @@
 		"params": [
 			{
 				"name": "html",
-				"displayName": "HTML*",
+				"displayName": "HTML",
 				"type": "string"
 			},
 			{
@@ -36,10 +36,20 @@
 				"type": "string"
 			},
 			{
-				"name": "pageBreakAvoid",
-				"displayName": "Page Break Avoid (Avoid breaking on these elements)",
+				"name": "breakBeforeClass",
+				"displayName": "Page Break Before (Classes)",
 				"type": "string"
-			}
+			},
+			{
+				"name": "breakAfterClass",
+				"displayName": "Page Break After (Classes)",
+				"type": "string"
+			},
+			{
+				"name": "avoidClass",
+				"displayName": "Page Break Avoid (Classes)",
+				"type": "string"
+			} 
 		],
 		"result": {
 			"type": "string"
