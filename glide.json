@@ -1,19 +1,24 @@
 [
-    {
-      "kind": "column",
-      "name": "Enhance HTML",
-      "description": "Receives HTML and returns new HTML with additional scripts and styles.",
-      "author": "Your Name <your@email.com>",
-      "params": [
-        {
-          "name": "html",
-          "displayName": "HTML Content",
-          "type": "string"
-        }
-      ],
-      "result": {
-        "type": "string"
-      }
-    }
+	{
+	  "kind": "column",
+	  "name": "HTML to PDF",
+	  "description": "Allows you to instantly save HTML as a PDF. Visit Loqode.com to level-up your Glide skills.",
+	  "author": "Marco Volpato <marco@loqode.com>",
+	  "params": [
+		{
+		  "name": "html",
+		  "displayName": "HTML",
+		  "type": "string"
+		},
+		{
+		  "name": "fileName",
+		  "displayName": "File Name",
+		  "type": "string"
+		}
+	  ],
+	  "result": {
+		"type": "string"
+	  }
+	}
   ]
   
