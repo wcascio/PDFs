@@ -21,6 +21,11 @@
 				"type": "string"
 			},
 			{
+				"name": "zoom",
+				"displayName": "Zoom (Defaults to 1)",
+				"type": "string"
+			},
+			{
 				"name": "format",
 				"displayName": "Format (a4, letter, etc)",
 				"type": "string"

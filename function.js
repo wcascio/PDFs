@@ -1,51 +1,30 @@
-window.function = function (html, fileName, quality, format, orientation, margin, breakBeforeClass, breakAfterClass, avoidClass) {
-	// DYNAMIC VALUES
-	html = html.value ?? "No HTML content set.";
-	fileName = fileName.value ?? "file";
-	quality = quality.value ?? 2;
-	format = format.value ?? "a4";
-	orientation = orientation.value ?? "portrait";
-	margin = margin.value ?? 10;
-	breakBeforeClass = breakBeforeClass.value ?? "";
-	breakAfterClass = breakAfterClass.value ?? "";
-	avoidClass = avoidClass.value ?? "";
+window.function = function(html, fileName, quality, zoom, format, orientation, margin, breakBeforeClass, breakAfterClass, avoidClass) {
+  // DYNAMIC VALUES
+  html = html.value ?? "No HTML content set.";
+  fileName = fileName.value ?? "file";
+  quality = quality.value ?? 2;
+  format = format.value ?? "a4";
+  orientation = orientation.value ?? "portrait";
+  margin = margin.value ?? 10;
+  breakBeforeClass = breakBeforeClass.value ?? "";
+  breakAfterClass = breakAfterClass.value ?? "";
+  avoidClass = avoidClass.value ?? "";
+  zoom = zoom.value ?? 1; // Default zoom of 1 means no scaling
 
-	// CONSTANT VARIABLES
-	const downloadText = "Download PDF";
-	const downloadColor = "#27272a";
-	const downloadingText = "Downloading...";
-	const downloadingColor = "#ea580c";
-	const doneText = "Done";
-	const doneColor = "#16a34a";
+  // Calculate scale and compensation for width and height
+  const scale = zoom; // Zoom factor (e.g., 0.8 for 80%)
+  const compensation = 100 / zoom; // Compensate based on zoom (e.g., 125 for a zoom of 0.8)
 
-	// Convert comma-separated class names into CSS selectors
-	const convertToSelectors = (classNames) =>
-		classNames
-			.split(",")
-			.map((name) => name.trim())
-			.filter((name) => name)
-			.map((name) => `.${name}`)
-			.join(", ");
+  // CONSTANT VARIABLES
+  const downloadText = 'Download PDF';
+  const downloadColor = '#27272a';
+  const downloadingText = 'Downloading...';
+  const downloadingColor = '#ea580c';
+  const doneText = 'Done';
+  const doneColor = '#16a34a';
 
-	// Prepare dynamic page break configuration
-	const pageBreakConfig = {
-		mode: ["css", "legacy"],
-	};
-
-	if (breakBeforeClass) {
-		pageBreakConfig.before = convertToSelectors(breakBeforeClass);
-	}
-
-	if (breakAfterClass) {
-		pageBreakConfig.after = convertToSelectors(breakAfterClass);
-	}
-
-	if (avoidClass) {
-		pageBreakConfig.avoid = convertToSelectors(avoidClass);
-	}
-
-	// DOWNLOAD BUTTON AND FUNCTIONALITY
-	const originalHTML = `
+  // DOWNLOAD BUTTON AND FUNCTIONALITY
+  const originalHTML = `
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
 <style>
   #downloadPDFButton {
@@ -68,6 +47,12 @@ window.function = function (html, fileName, quality, format, orientation, margin
     background-color: #e4e4e7;
     box-shadow: 0px 0px 1px rgba(62, 65, 86, 0.32), 0px 4px 8px rgba(62, 65, 86, 0.16);
   }
+  #contentToDownload {
+    transform: scale(${scale});
+    transform-origin: top left;
+    width: ${compensation}%;
+    height: ${compensation}%;
+  }
 </style>
 <button id="downloadPDFButton">${downloadText}</button>
 <div id="contentToDownload">${html}</div>
@@ -78,7 +63,7 @@ window.function = function (html, fileName, quality, format, orientation, margin
     pdfButton.textContent = '${downloadingText}';
     pdfButton.style.color = '${downloadingColor}';
     html2pdf().set({
-      pagebreak: ${JSON.stringify(pageBreakConfig)},
+      pagebreak: { mode: ['css', 'legacy'], before: '${breakBeforeClass}', after: '${breakAfterClass}', avoid: '${avoidClass}' },
       margin: ${margin},
       filename: '${fileName}',
       image: {
@@ -105,6 +90,6 @@ window.function = function (html, fileName, quality, format, orientation, margin
   });
 </script>
 `;
-	var encodedHtml = encodeURIComponent(originalHTML);
-	return "data:text/html;charset=utf-8," + encodedHtml;
-};
+  var encodedHtml = encodeURIComponent(originalHTML);
+  return 'data:text/html;charset=utf-8,' + encodedHtml;
+}
