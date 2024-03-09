@@ -22,7 +22,7 @@
 			},
 			{
 				"name": "format",
-				"displayName": "Format <span style='opacity:0.5'>(a4, letter, etc)</span>",
+				"displayName": "Format (a4, letter, etc)",
 				"type": "string"
 			},
 			{
