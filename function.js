@@ -1,27 +1,23 @@
-window.function = function (html, fileName, quality, format, zoom, orientation, margin, breakBeforeClass, breakAfterClass, avoidClass, customDimensions) {
-	// DYNAMIC VALUES
-	html = html.value ?? "No HTML content set.";
-	fileName = fileName.value ?? "file";
-	quality = quality.value ?? 2;
-	format = format.value ?? "a4";
-  zoom = zoom.value ?? 1;
-	orientation = orientation.value ?? "portrait";
-	margin = margin.value ?? 10;
-	breakBeforeClass = breakBeforeClass.value ?? "";
-	breakAfterClass = breakAfterClass.value ?? "";
-	avoidClass = avoidClass.value ?? "";
-  customDimensions = customDimensions.value ?? null;
+window.function = function(html, fileName, quality, format, orientation, margin, pageBreakAvoid) {
+  // Dynamic Values
+  html = html.value ?? "No HTML content set.";
+  fileName = fileName.value ?? "file";
+  quality = quality.value ?? 2;
+  format = format.value ?? "a4";
+  orientation = orientation.value ?? "portrait";
+  margin = margin.value ?? 10;
+  pageBreakAvoid = pageBreakAvoid.value ?? "";
 
-	// CONSTANT VALUES
-	const downloadText = "Download PDF";
-	const downloadColor = "#27272a";
-	const downloadingText = "Downloading...";
-	const downloadingColor = "#ea580c";
-	const doneText = "Done";
-	const doneColor = "#16a34a";
+  // Variables
+  const downloadText = 'Download PDF';
+  const downloadColor = '#27272a';
+  const downloadingText = 'Downloading...';
+  const downloadingColor = '#ea580c';
+  const doneText = 'Done';
+  const doneColor = '#16a34a';
 
-	// DOWNLOAD BUTTON AND FUNCTIONALITY
-	const originalHTML = `
+  // Your original HTML including the additional scripts and styles
+  const originalHTML = `
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
 <style>
   #downloadPDFButton {
@@ -54,7 +50,7 @@ window.function = function (html, fileName, quality, format, zoom, orientation, 
     pdfButton.textContent = '${downloadingText}';
     pdfButton.style.color = '${downloadingColor}';
     html2pdf().set({
-      pagebreak: { mode: ['css', 'legacy'], before: '${breakBeforeClass}', after: '${breakAfterClass}', avoid: '${avoidClass}' },
+      pagebreak: { mode: ['css', 'legacy'], avoid: '${pageBreakAvoid}' },
       margin: ${margin},
       filename: '${fileName}',
       image: {
@@ -81,6 +77,6 @@ window.function = function (html, fileName, quality, format, zoom, orientation, 
   });
 </script>
 `;
-	var encodedHtml = encodeURIComponent(originalHTML);
-	return "data:text/html;charset=utf-8," + encodedHtml;
-};
+  var encodedHtml = encodeURIComponent(originalHTML);
+  return 'data:text/html;charset=utf-8,' + encodedHtml;
+}

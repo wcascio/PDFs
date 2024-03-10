@@ -12,7 +12,7 @@
 			},
 			{
 				"name": "fileName",
-				"displayName": "Filename",
+				"displayName": "File Name",
 				"type": "string"
 			},
 			{
@@ -21,18 +21,8 @@
 				"type": "string"
 			},
 			{
-				"name": "zoom",
-				"displayName": "Zoom (Defaults to 1)",
-				"type": "string"
-			},
-			{
 				"name": "format",
 				"displayName": "Format (a4, letter, etc)",
-				"type": "string"
-			},
-			{
-				"name": "customDimensions",
-				"displayName": "Custom dimensions (e.g. 500x500)",
 				"type": "string"
 			},
 			{
@@ -46,20 +36,10 @@
 				"type": "string"
 			},
 			{
-				"name": "breakBeforeClass",
-				"displayName": "Break before these classes (e.g: .break-before)",
+				"name": "pageBreakAvoid",
+				"displayName": "Page Break Avoid (Avoid breaking on these elements)",
 				"type": "string"
-			},
-			{
-				"name": "breakAfterClass",
-				"displayName": "Break after these classes (e.g: .break-after)",
-				"type": "string"
-			},
-			{
-				"name": "avoidClass",
-				"displayName": "Don't break on these classes (e.g: .no-break)",
-				"type": "string"
-			} 
+			}
 		],
 		"result": {
 			"type": "string"
