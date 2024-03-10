@@ -12,7 +12,7 @@
 			},
 			{
 				"name": "fileName",
-				"displayName": "File Name",
+				"displayName": "Filename",
 				"type": "string"
 			},
 			{
@@ -42,17 +42,17 @@
 			},
 			{
 				"name": "breakBeforeClass",
-				"displayName": "Page Break Before (Classes)",
+				"displayName": "Break before these classes (e.g: .break-before)",
 				"type": "string"
 			},
 			{
 				"name": "breakAfterClass",
-				"displayName": "Page Break After (Classes)",
+				"displayName": "Break after these classes (e.g: .break-after)",
 				"type": "string"
 			},
 			{
 				"name": "avoidClass",
-				"displayName": "Page Break Avoid (Classes)",
+				"displayName": "Don't break on these classes (e.g: .no-break)",
 				"type": "string"
 			} 
 		],
