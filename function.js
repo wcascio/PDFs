@@ -115,7 +115,7 @@ window.function = function (html, fileName, quality, zoom, format, orientation, 
         scale: ${quality},
         useCORS: true
       },
-      jsPDF: jsPDFOptions
+      jsPDF: ${jsPDFOptions}
     }).from(contentElement).toPdf().get('pdf').then(function() {
       pdfButton.textContent = '${doneText}';
       pdfButton.style.color = '${doneColor}';
