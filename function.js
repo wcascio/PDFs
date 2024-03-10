@@ -1,74 +1,24 @@
-window.function = function (html, fileName, quality, zoom, format, orientation, margin, breakBeforeClass, breakAfterClass, avoidClass, customDimensions) {
+window.function = function (html, fileName, quality, format, zoom, orientation, margin, breakBeforeClass, breakAfterClass, avoidClass, customDimensions) {
 	// DYNAMIC VALUES
 	html = html.value ?? "No HTML content set.";
 	fileName = fileName.value ?? "file";
 	quality = quality.value ?? 2;
 	format = format.value ?? "a4";
+  zoom = zoom.value ?? 1;
 	orientation = orientation.value ?? "portrait";
 	margin = margin.value ?? 10;
 	breakBeforeClass = breakBeforeClass.value ?? "";
 	breakAfterClass = breakAfterClass.value ?? "";
 	avoidClass = avoidClass.value ?? "";
-	zoom = zoom.value ?? 1;
-	customDimensions = customDimensions.value ?? null;
+  customDimensions = customDimensions.value ?? null;
 
-	// DOCUMENT FORMAT DIMENSIONS IN MM
-	const formatDimensions = {
-		a0: [841, 1189],
-		a1: [594, 841],
-		a2: [420, 594],
-		a3: [297, 420],
-		a4: [210, 297],
-		a5: [148, 210],
-		a6: [105, 148],
-		a7: [74, 105],
-		a8: [52, 74],
-		a9: [37, 52],
-		a10: [26, 37],
-		b0: [1000, 1414],
-		b1: [707, 1000],
-		b2: [500, 707],
-		b3: [353, 500],
-		b4: [250, 353],
-		b5: [176, 250],
-		b6: [125, 176],
-		b7: [88, 125],
-		b8: [62, 88],
-		b9: [44, 62],
-		b10: [31, 44],
-		c0: [917, 1297],
-		c1: [648, 917],
-		c2: [458, 648],
-		c3: [324, 458],
-		c4: [229, 324],
-		c5: [162, 229],
-		c6: [114, 162],
-		c7: [81, 114],
-		c8: [57, 81],
-		c9: [40, 57],
-		c10: [28, 40],
-		dl: [110, 220],
-		letter: [216, 279],
-		government_letter: [203, 267],
-		legal: [216, 356],
-		junior_legal: [203, 127],
-		ledger: [432, 279],
-		tabloid: [279, 432],
-		credit_card: [54, 86],
-	};
-
-	// CALCULATE FINAL DIMENSIONS
-	let finalDimensions = [0, 0];
-	if (customDimensions) {
-		const customDims = customDimensions.split("x").map(Number);
-		finalDimensions = customDims.map((dim) => dim * zoom);
-	} else {
-		const standardDims = formatDimensions[format];
-		finalDimensions = standardDims.map((dim) => dim * zoom);
-	}
-
-	// UPDATE THE JSPDF OPTIONS WITH CALCULATED DIMENSIONS OR CUSTOM DIMENSIONS
-	const jsPDFOptions = customDimensions ? { unit: "mm", format: finalDimensions, orientation } : { unit: "mm", format, orientation };
+	// CONSTANT VALUES
+	const downloadText = "Download PDF";
+	const downloadColor = "#27272a";
+	const downloadingText = "Downloading...";
+	const downloadingColor = "#ea580c";
+	const doneText = "Done";
+	const doneColor = "#16a34a";
 
 	// DOWNLOAD BUTTON AND FUNCTIONALITY
 	const originalHTML = `
@@ -115,7 +65,11 @@ window.function = function (html, fileName, quality, zoom, format, orientation, 
         scale: ${quality},
         useCORS: true
       },
-      jsPDF: ${jsPDFOptions}
+      jsPDF: {
+        unit: 'mm',
+        format: '${format}',
+        orientation: '${orientation}'
+      }
     }).from(contentElement).toPdf().get('pdf').then(function() {
       pdfButton.textContent = '${doneText}';
       pdfButton.style.color = '${doneColor}';
