@@ -31,6 +31,11 @@
 				"type": "string"
 			},
 			{
+				"name": "customDimensions",
+				"displayName": "Custom dimensions (e.g. 500x500)",
+				"type": "string"
+			},
+			{
 				"name": "orientation",
 				"displayName": "Orientation (portrait, landscape)",
 				"type": "string"
