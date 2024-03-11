@@ -1,8 +1,15 @@
 window.function = function (html, fileName, quality, format, zoom, orientation, margin, breakBefore, breakAfter, breakAvoid, customDimensions) {
+	// QUALITY MAPPING
+	const qualityMap = {
+		low: 1,
+		standard: 2,
+		high: 3,
+	};
+
 	// DYNAMIC VALUES
 	html = html.value ?? "No HTML content set.";
 	fileName = fileName.value ?? "file";
-	quality = quality.value ?? 2;
+	quality = qualityMap[quality.value] ?? 2;
 	format = format.value ?? "a4";
 	zoom = zoom.value ?? 1;
 	orientation = orientation.value ?? "portrait";
@@ -80,73 +87,73 @@ window.function = function (html, fileName, quality, format, zoom, orientation, 
 
 	// HTML THAT IS RETURNED AS A RENDERABLE URL
 	const originalHTML = `
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
-<style>
-  #downloadPDFButton {
-    cursor: pointer;
-    position: fixed;
-    right: 4px;
-    top: 4px;
-    font-weight: 600;
-    background-color: #fafafa;
-    box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.16), 0px 4px 8px rgba(0, 0, 0, 0.12);
-    color: #27272a;
-    border: 0.5px solid #00000024;
-    border-radius: 8px;
-    height: 32px;
-    padding: 0 12px;
-    font-size: 0.75rem;
-    z-index: 999;
-  }
-  #downloadPDFButton:hover {
-    background-color: #e4e4e7;
-    box-shadow: 0px 0px 1px rgba(62, 65, 86, 0.32), 0px 4px 8px rgba(62, 65, 86, 0.16);
-  }
-  ::-webkit-scrollbar {
-    width: 5px;
-    background-color: rgb(0 0 0 / 8%);
-  }
-  ::-webkit-scrollbar-thumb {
-      background-color: rgb(0 0 0 / 32%);
-      border-radius: 4px;
-  }
-</style>
-<button id="downloadPDFButton">${downloadText}</button>
-<div id="contentToDownload">${html}</div>
-<script>
-  document.getElementById('downloadPDFButton').addEventListener('click', function() {
-    const pdfButton = this;
-    const contentElement = document.getElementById('contentToDownload');
-    pdfButton.textContent = '${downloadingText}';
-    pdfButton.style.color = '${downloadingColor}';
-    html2pdf().set({
-      pagebreak: { mode: ['css'], before: ${JSON.stringify(breakBefore)}, after: ${JSON.stringify(breakAfter)}, avoid: ${JSON.stringify(breakAvoid)} },
-      margin: ${margin},
-      filename: '${fileName}',
-      image: {
-        type: 'jpeg',
-        quality: 1
-      },
-      html2canvas: {
-        scale: ${quality},
-        useCORS: true
-      },
-      jsPDF: {
-        unit: 'mm',
-        format: [${finalDimensions[0]}, ${finalDimensions[1]}],
-        orientation: '${orientation}'
-      }
-    }).from(contentElement).toPdf().get('pdf').then(function() {
-      pdfButton.textContent = '${doneText}';
-      pdfButton.style.color = '${doneColor}';
-      setTimeout(function() {
-        pdfButton.textContent = '${downloadText}';
-        pdfButton.style.color = '${downloadColor}';
-      }, 2000);
-    }).save();
-  });
-</script>
-`;
+	  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+	  <style>
+	  .button {
+		cursor: pointer;
+		position: fixed;
+		right: 4px;
+		top: 4px;
+		font-weight: 600;
+		background-color: #fafafa;
+		box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.16), 0px 4px 8px rgba(0, 0, 0, 0.12);
+		color: #27272a;
+		border: 0.5px solid #00000024;
+		border-radius: 8px;
+		height: 32px;
+		padding: 0 12px;
+		font-size: 0.75rem;
+		z-index: 999;
+	  }
+	  .button:hover {
+		background-color: #e4e4e7;
+		box-shadow: 0px 0px 1px rgba(62, 65, 86, 0.32), 0px 4px 8px rgba(62, 65, 86, 0.16);
+	  }
+	  ::-webkit-scrollbar {
+		width: 5px;
+		background-color: rgb(0 0 0 / 8%);
+	  }
+	  ::-webkit-scrollbar-thumb {
+		background-color: rgb(0 0 0 / 32%);
+		border-radius: 4px;
+	  }
+	  </style>
+	  <button class="button" id="downloadPDFButton">${downloadText}</button>
+	  <div id="contentToDownload">${html}</div>
+	  <script>
+	  document.getElementById('downloadPDFButton').addEventListener('click', function() {
+		const pdfButton = this;
+		const contentElement = document.getElementById('contentToDownload');
+		pdfButton.textContent = '${downloadingText}';
+		pdfButton.style.color = '${downloadingColor}';
+		html2pdf().set({
+		pagebreak: { mode: ['css'], before: ${JSON.stringify(breakBefore)}, after: ${JSON.stringify(breakAfter)}, avoid: ${JSON.stringify(breakAvoid)} },
+		margin: ${margin},
+		filename: '${fileName}',
+		image: {
+		  type: 'jpeg',
+		  quality: 1
+		},
+		html2canvas: {
+		  scale: ${quality},
+		  useCORS: true
+		},
+		jsPDF: {
+		  unit: 'mm',
+		  format: [${finalDimensions[0]}, ${finalDimensions[1]}],
+		  orientation: '${orientation}'
+		}
+		}).from(contentElement).toPdf().get('pdf').then(function() {
+		pdfButton.textContent = '${doneText}';
+		pdfButton.style.color = '${doneColor}';
+		setTimeout(function() {
+		  pdfButton.textContent = '${downloadText}';
+		  pdfButton.style.color = '${downloadColor}';
+		}, 2000);
+		}).save();
+	  });
+	  </script>
+	  `;
 	var encodedHtml = encodeURIComponent(originalHTML);
 	return "data:text/html;charset=utf-8," + encodedHtml;
 };
