@@ -99,7 +99,7 @@ window.function = function (html, fileName, format, zoom, orientation, margin, b
 	  font-family: 'Inter';
 	  padding: 0px 12px;
 	  height: 32px;
-	  background: #ffffff;
+	  background: #ff0000;
 	  top: 8px;
 	  right: 8px;
 	  box-shadow: 0 0 0 0.5px rgba(0, 0, 0, 0.08), 0 1px 2.5px rgba(0, 0, 0, 0.1);
